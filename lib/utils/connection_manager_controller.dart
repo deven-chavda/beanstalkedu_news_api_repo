@@ -7,13 +7,14 @@ import 'package:get/get.dart';
 
 import 'Utils.dart';
 
+// This Controller listen the network state update and update the widget which is listening
+
 class ConnectionManagerController extends GetxController {
   //0 = No Internet, 1 = WIFI Connected ,2 = Mobile Data Connected.
   var connectionType = 0.obs;
-
   final Connectivity _connectivity = Connectivity();
-
   late StreamSubscription _streamSubscription;
+  var isConnected = false.obs;
 
   @override
   void onInit() {
@@ -39,16 +40,19 @@ class ConnectionManagerController extends GetxController {
     switch (result) {
       case ConnectivityResult.wifi:
         connectionType.value = 1;
+        isConnected.value = true;
         break;
       case ConnectivityResult.mobile:
         connectionType.value = 2;
-
+        isConnected.value = true;
         break;
       case ConnectivityResult.none:
         connectionType.value = 0;
+        isConnected.value = false;
         break;
       default:
         Utils().showSnackBar('Error', 'Failed to get connection type');
+        isConnected.value = false;
         break;
     }
   }
