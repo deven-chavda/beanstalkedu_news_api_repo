@@ -3,6 +3,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../main.dart';
+
 class Utils {
   // This class is for writing re-usable functions and etc.
   var routeConst = {'home': '/'};
@@ -40,30 +42,47 @@ class Utils {
     return ['5', '10', '15'];
   }
 
-// getAndStoreArticles(String query) async {
-//   Response res = await NewsApiProvider().getEveryThingAPI(query);
-//   Map<String, dynamic> body = json.decode(json.encode(res.body));
-//   debugPrint('BODY : ${body['status']}');
-//   debugPrint('BODY totalResults : ${body['totalResults']}');
-//   if (body['status'] == 'error' || body['totalResults'] <= 0) {
-//     debugPrint('No Article Available');
-//     return;
-//   } else if (body['status'] == 'ok') {
-//     debugPrint('BODY : ${body['articles'][0]['source']['id']}');
-//     var box = objectbox.store.box<ArticlesEntity>();
-//     for (var article in body['articles']) {
-//       var articleEntity = ArticlesEntity(
-//           article['author'] ?? '',
-//           article['title'] ?? '',
-//           article['content'] ?? '',
-//           article['description'] ?? '',
-//           article['publishedAt'] ?? '',
-//           article['url'] ?? '',
-//           article['urlToImage'] ?? '');
-//       articleEntity.articleSource.target = ArticleSourceEntity(
-//           article['source']['id'] ?? '', article['source']['name'] ?? '');
-//       box.put(articleEntity);
-//     }
-//   }
-// }
+  // getAndStoreArticles(String query) async {
+  //   Response res = await NewsApiProvider().getEveryThingAPI(query);
+  //   Map<String, dynamic> body = json.decode(json.encode(res.body));
+  //   debugPrint('BODY : ${body['status']}');
+  //   debugPrint('BODY totalResults : ${body['totalResults']}');
+  //   if (body['status'] == 'error' || body['totalResults'] <= 0) {
+  //     debugPrint('No Article Available');
+  //     return;
+  //   } else if (body['status'] == 'ok') {
+  //     debugPrint('BODY : ${body['articles'][0]['source']['id']}');
+  //     var box = objectbox.store.box<ArticlesEntity>();
+  //     for (var article in body['articles']) {
+  //       var articleEntity = ArticlesEntity(
+  //           article['author'] ?? '',
+  //           article['title'] ?? '',
+  //           article['content'] ?? '',
+  //           article['description'] ?? '',
+  //           article['publishedAt'] ?? '',
+  //           article['url'] ?? '',
+  //           article['urlToImage'] ?? '');
+  //       articleEntity.articleSource.target = ArticleSourceEntity(
+  //           article['source']['id'] ?? '', article['source']['name'] ?? '');
+  //       box.put(articleEntity);
+  //     }
+  //   }
+  // }
+
+  getCustomizedNavItem(IconData icon, int index, String navTxt) {
+    return Obx(() => SizedBox(
+          height: mainNavCurrentSelectedTab.value == index ? 30 : 50,
+          child: Center(
+            child: Column(
+              children: [
+                Icon(icon, size: 30, color: Colors.white),
+                Visibility(
+                    visible:
+                        mainNavCurrentSelectedTab.value == index ? false : true,
+                    child: Text(navTxt))
+              ],
+            ),
+          ),
+        ));
+  }
 }
