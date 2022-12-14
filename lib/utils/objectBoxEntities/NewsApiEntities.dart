@@ -1,6 +1,6 @@
 import 'package:objectbox/objectbox.dart';
 
-// After update the file run this command -> flutter pub run build_runner build
+// After update the file run this command -> flutter pub run build_runner build --delete-conflicting-outputs
 
 @Entity()
 class BookmarkArticlesEntity {
@@ -14,10 +14,27 @@ class BookmarkArticlesEntity {
   @Unique()
   String url;
 
-  String author, title, description, urlToImage, publishedAt, content;
+  String author,
+      title,
+      description,
+      urlToImage,
+      publishedAt,
+      content,
+      currentApi,
+      itemsPerPage,
+      currentPage;
 
-  BookmarkArticlesEntity(this.author, this.title, this.content,
-      this.description, this.publishedAt, this.url, this.urlToImage);
+  BookmarkArticlesEntity(
+      this.author,
+      this.title,
+      this.content,
+      this.description,
+      this.publishedAt,
+      this.url,
+      this.urlToImage,
+      this.currentApi,
+      this.itemsPerPage,
+      this.currentPage);
 }
 
 @Entity()

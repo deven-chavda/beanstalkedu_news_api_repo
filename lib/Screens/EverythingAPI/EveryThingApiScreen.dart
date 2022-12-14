@@ -200,7 +200,14 @@ class _EveryThingApiScreenState extends State<EveryThingApiScreen> {
                   .where((element) => element.url == article['url']);
               return GestureDetector(
                 onTap: action,
-                child: Utils().getCard(article, isBookmarkedList.toList(), box, updateState),
+                child: Utils().getCard(
+                    article,
+                    isBookmarkedList.toList(),
+                    box,
+                    updateState,
+                    currentApi.value,
+                    currentPageSize.value,
+                    currentPage.value),
               );
             },
             openBuilder: (context, action) {

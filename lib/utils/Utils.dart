@@ -11,6 +11,7 @@ import 'objectBoxEntities/NewsApiEntities.dart';
 class Utils {
   // This class is for writing re-usable functions and etc.
   var routeConst = {'home': '/'};
+  var s = "This project doesn't need any implementation, just you may need some commands in terminal";
 
   showSnackBar(String title, String message) {
     Get.snackbar(
@@ -101,7 +102,10 @@ class Utils {
       Map<String, dynamic> article,
       List<BookmarkArticlesEntity> isBookmarkedList,
       Box<BookmarkArticlesEntity> box,
-      Function() updateState) {
+      Function() updateState,
+      String currentApi,
+      int pageSize,
+      int currentPage) {
     return Card(
       color: Colors.white,
       surfaceTintColor: Colors.white,
@@ -162,7 +166,10 @@ class Utils {
                                             article['description'] ?? '',
                                             article['publishedAt'] ?? '',
                                             article['url'] ?? '',
-                                            article['urlToImage'] ?? '');
+                                            article['urlToImage'] ?? '',
+                                            currentApi,
+                                            pageSize.toString(),
+                                            currentPage.toString());
                                     bookmarkArticlesEntity
                                             .articleSource.target =
                                         BookmarkArticleSourceEntity(
