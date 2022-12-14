@@ -10,7 +10,6 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get/get.dart';
 
 import 'Screens/EverythingAPI/EveryThingApiScreen.dart';
-import 'Screens/TopHeadlinesAPI/TopHeadlinesApiScreen.dart';
 
 final navigatorKey = GlobalKey<NavigatorState>(debugLabel: 'navigatorKey');
 RxInt mainNavCurrentSelectedTab = 0.obs;
@@ -19,6 +18,8 @@ GlobalKey<CurvedNavigationBarState> _mainNavBottomNavigationKey =
 
 /// Provides access to the ObjectBox Store throughout the app.
 late ObjectBox objectbox;
+
+RxString mainScreenTxt = ''.obs;
 
 Future<void> main() async {
   // This is required so ObjectBox can get the application directory
@@ -75,12 +76,10 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   static final List<String> navTitles = [
     'Everything API',
-    'Top headlines API',
     'Bookmarks'
   ];
   static final List<Widget> _mainNavItems = <Widget>[
     const EveryThingApiScreen(),
-    const TopHeadlinesApiScreen(),
     const BookmarksScreen()
   ];
 
@@ -89,27 +88,33 @@ class _MyHomePageState extends State<MyHomePage> {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
-        title: Obx(() => Text(navTitles[mainNavCurrentSelectedTab.value])),
+        title: Obx(() => Text(mainScreenTxt.value)),
       ),
       bottomNavigationBar: CurvedNavigationBar(
         key: _mainNavBottomNavigationKey,
         height: 50,
         index: mainNavCurrentSelectedTab.value,
         animationCurve: Curves.slowMiddle,
-        backgroundColor: Colors.lightBlueAccent,
+        backgroundColor: Colors.transparent,
         color: Colors.blueAccent,
         buttonBackgroundColor: Colors.blueAccent,
         items: <Widget>[
           Utils().getCustomizedNavItem(Icons.home_outlined, 0, 'Home'),
-          Utils().getCustomizedNavItem(Icons.topic_outlined, 1, 'Top Heading'),
           Utils()
-              .getCustomizedNavItem(Icons.bookmarks_outlined, 2, 'Book Marks'),
+              .getCustomizedNavItem(Icons.bookmarks_outlined, 1, 'Book Marks'),
         ],
         onTap: (index) {
           mainNavCurrentSelectedTab.value = index;
+          mainScreenTxt.value = navTitles[index];
         },
       ),
       body: Obx(() => _mainNavItems.elementAt(mainNavCurrentSelectedTab.value)),
     );
+  }
+
+  @override
+  void initState() {
+    mainScreenTxt.value = navTitles[0];
+    super.initState();
   }
 }
