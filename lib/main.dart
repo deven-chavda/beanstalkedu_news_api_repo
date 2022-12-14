@@ -8,6 +8,7 @@ import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:device_preview/device_preview.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get/get.dart';
 
@@ -16,7 +17,7 @@ import 'Screens/EverythingAPI/EveryThingApiScreen.dart';
 final navigatorKey = GlobalKey<NavigatorState>(debugLabel: 'navigatorKey');
 RxInt mainNavCurrentSelectedTab = 0.obs;
 GlobalKey<CurvedNavigationBarState> _mainNavBottomNavigationKey =
-GlobalKey(debugLabel: '_mainNavKey');
+    GlobalKey(debugLabel: '_mainNavKey');
 
 /// Provides access to the ObjectBox Store throughout the app.
 late ObjectBox objectbox;
@@ -51,16 +52,36 @@ class MyApp extends StatelessWidget {
       navigatorKey: navigatorKey,
       title: 'News',
       theme: ThemeData(
-          useMaterial3: true,
-          primarySwatch: Colors.blue,
-          appBarTheme: const AppBarTheme(
-              color: Colors.blue, foregroundColor: Colors.white),
-          cardTheme: const CardTheme(color: Colors.white))
-          .copyWith(
+        useMaterial3: true,
+        primarySwatch: Colors.blue,
+        appBarTheme: const AppBarTheme(
+            color: Colors.blue, foregroundColor: Colors.white),
+        cardTheme: const CardTheme(color: Colors.white),
+      ).copyWith(
           pageTransitionsTheme: const PageTransitionsTheme(
               builders: <TargetPlatform, PageTransitionsBuilder>{
-                TargetPlatform.android: ZoomPageTransitionsBuilder(),
-              })),
+            TargetPlatform.android: ZoomPageTransitionsBuilder(),
+          })),
+      darkTheme: ThemeData(
+          useMaterial3: true,
+          primaryColor: Colors.black,
+          primaryColorLight: Colors.black,
+          brightness: Brightness.dark,
+          primaryColorDark: Colors.black,
+          indicatorColor: Colors.white,
+          canvasColor: Colors.black,
+          textTheme: const TextTheme(
+            headline1: TextStyle(color: Colors.black),
+            headline2: TextStyle(color: Colors.black),
+            bodyText2: TextStyle(color: Colors.black),
+            subtitle1: TextStyle(color: Colors.black),
+          ),
+          // next line is important!
+          appBarTheme: const AppBarTheme(
+              systemOverlayStyle: SystemUiOverlayStyle.light)),
+      // // standard dark theme
+      themeMode: ThemeMode.system,
+      // device controls theme
       initialRoute: '/',
       getPages: [
         GetPage(
@@ -92,6 +113,8 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
+    var brightness = MediaQuery.of(context).platformBrightness;
+    bool isDarkMode = brightness == Brightness.dark;
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
@@ -103,8 +126,8 @@ class _MyHomePageState extends State<MyHomePage> {
         index: mainNavCurrentSelectedTab.value,
         animationCurve: Curves.slowMiddle,
         backgroundColor: Colors.transparent,
-        color: Colors.blueAccent,
-        buttonBackgroundColor: Colors.blueAccent,
+        color: !isDarkMode ? Colors.blueAccent : Colors.grey,
+        buttonBackgroundColor: !isDarkMode ? Colors.blueAccent:Colors.black,
         items: <Widget>[
           Utils().getCustomizedNavItem(Icons.home_outlined, 0, 'Home'),
           Utils()

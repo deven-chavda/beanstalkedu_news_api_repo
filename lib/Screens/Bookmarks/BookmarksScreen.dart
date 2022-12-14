@@ -15,6 +15,8 @@ class BookmarksScreen extends StatefulWidget {
 class _BookmarksScreenState extends State<BookmarksScreen> {
   @override
   Widget build(BuildContext context) {
+    var brightness = MediaQuery.of(context).platformBrightness;
+    bool isDarkMode = brightness == Brightness.dark;
     Box<BookmarkArticlesEntity> box =
         objectbox.store.box<BookmarkArticlesEntity>();
     List<BookmarkArticlesEntity> bookmarkList = box.getAll();
@@ -63,10 +65,10 @@ class _BookmarksScreenState extends State<BookmarksScreen> {
                                   Align(
                                       alignment: Alignment.topRight,
                                       child: Card(
-                                        surfaceTintColor: Colors.blue,
-                                        color: Colors.blue,
-                                        shadowColor: Colors.blue,
-                                        elevation: 15,
+                                        surfaceTintColor: !isDarkMode?Colors.blue:Colors.grey,
+                                        color: !isDarkMode?Colors.blue:Colors.black,
+                                        shadowColor: !isDarkMode?Colors.blue:Colors.grey,
+                                        elevation: !isDarkMode?15:25,
                                         child: IconButton(
                                             onPressed: () {
                                               box.remove(article.id);

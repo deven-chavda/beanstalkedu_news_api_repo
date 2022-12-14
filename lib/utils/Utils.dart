@@ -11,7 +11,6 @@ import 'objectBoxEntities/NewsApiEntities.dart';
 class Utils {
   // This class is for writing re-usable functions and etc.
   var routeConst = {'home': '/'};
-  var s = "This project doesn't need any implementation, just you may need some commands in terminal";
 
   showSnackBar(String title, String message) {
     Get.snackbar(
@@ -105,7 +104,8 @@ class Utils {
       Function() updateState,
       String currentApi,
       int pageSize,
-      int currentPage) {
+      int currentPage,
+      bool isDarkMode) {
     return Card(
       color: Colors.white,
       surfaceTintColor: Colors.white,
@@ -146,13 +146,13 @@ class Utils {
                             alignment: Alignment.topRight,
                             child: Card(
                               surfaceTintColor: isBookmarkedList.isNotEmpty
-                                  ? Colors.blue
+                                  ? isDarkMode?Colors.black:Colors.blue
                                   : Colors.grey,
                               color: isBookmarkedList.isNotEmpty
-                                  ? Colors.blue
+                                  ? isDarkMode?Colors.black:Colors.blue
                                   : Colors.grey,
                               shadowColor: isBookmarkedList.isNotEmpty
-                                  ? Colors.blue
+                                  ? isDarkMode?Colors.black:Colors.blue
                                   : Colors.grey,
                               elevation: 15,
                               child: IconButton(

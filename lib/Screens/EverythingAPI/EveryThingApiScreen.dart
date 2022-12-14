@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:animations/animations.dart';
 import 'package:beanstalkedu_news_api/utils/objectBoxEntities/NewsApiEntities.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:get/get.dart';
 import 'package:objectbox/objectbox.dart';
 
@@ -27,6 +28,10 @@ class _EveryThingApiScreenState extends State<EveryThingApiScreen> {
   final _formKey = GlobalKey<FormState>();
   Box<BookmarkArticlesEntity> box =
       objectbox.store.box<BookmarkArticlesEntity>();
+
+  bool isDarkMode =
+      SchedulerBinding.instance.platformDispatcher.platformBrightness ==
+          Brightness.dark;
 
   updateEverythingApi() {
     Map<String, dynamic> params = {
@@ -207,7 +212,8 @@ class _EveryThingApiScreenState extends State<EveryThingApiScreen> {
                     updateState,
                     currentApi.value,
                     currentPageSize.value,
-                    currentPage.value),
+                    currentPage.value,
+                    isDarkMode),
               );
             },
             openBuilder: (context, action) {
@@ -301,7 +307,11 @@ class _EveryThingApiScreenState extends State<EveryThingApiScreen> {
                               },
                             );
                           },
-                          child: const Text('Advance Search'))),
+                          child: Text(
+                            'Advance Search',
+                            style: TextStyle(
+                                color: isDarkMode ? Colors.white : Colors.blue),
+                          ))),
                   // getPageChangeWidget()
                 ],
               ),
