@@ -1,16 +1,32 @@
 # beanstalkedu_news_api
 
-Flutter Tasks from Beanstalkedu Pvt. Ltd.
+This Project is about getting filtered and searched data from news apis.
 
 ## Getting Started
 
-This project is a starting point for a Flutter application.
+This project doesn't need any implementation, you may need to run some commands in terminal.
 
-A few resources to get you started if this is your first Flutter project:
+### step 1:
+Download or clone this repo by using the link below:
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+>`https://github.com/deven-chavda/beanstalkedu_news_api_repo.git`
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+### step 2:
+This project uses inject library that works with code generation, execute the following command to generate files:
+
+>`flutter packages pub run build_runner build --delete-conflicting-outputs`
+
+or watch command in order to keep the source code synced automatically:
+
+>`flutter pub run build_runner watch`
+
+## Features
+
+getting data from [news API](https://newsapi.org)
+
+For more information about APIs which I had used:
+* [everything API](https://newsapi.org/docs/endpoints/everything)
+
+* [Top headlines API](https://newsapi.org/docs/endpoints/top-headlines)
+
+This is basic features of search and filter data from API.
