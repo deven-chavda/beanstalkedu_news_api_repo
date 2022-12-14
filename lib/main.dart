@@ -5,6 +5,8 @@ import 'package:beanstalkedu_news_api/utils/Utils.dart';
 import 'package:beanstalkedu_news_api/utils/controller_binding.dart';
 import 'package:beanstalkedu_news_api/utils/objectBoxStore/ObjectBoxStore.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
+import 'package:device_preview/device_preview.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get/get.dart';
@@ -14,7 +16,7 @@ import 'Screens/EverythingAPI/EveryThingApiScreen.dart';
 final navigatorKey = GlobalKey<NavigatorState>(debugLabel: 'navigatorKey');
 RxInt mainNavCurrentSelectedTab = 0.obs;
 GlobalKey<CurvedNavigationBarState> _mainNavBottomNavigationKey =
-    GlobalKey(debugLabel: '_mainNavKey');
+GlobalKey(debugLabel: '_mainNavKey');
 
 /// Provides access to the ObjectBox Store throughout the app.
 late ObjectBox objectbox;
@@ -31,7 +33,12 @@ Future<void> main() async {
   } catch (e) {
     debugPrint('main.dart | CATCH | $e');
   }
-  runApp(const MyApp());
+  runApp(
+    DevicePreview(
+      enabled: !kReleaseMode,
+      builder: (context) => const MyApp(), // Wrap your app
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -44,22 +51,25 @@ class MyApp extends StatelessWidget {
       navigatorKey: navigatorKey,
       title: 'News',
       theme: ThemeData(
-              useMaterial3: true,
-              primarySwatch: Colors.blue,
-              appBarTheme: const AppBarTheme(
-                  color: Colors.blue, foregroundColor: Colors.white),
-              cardTheme: const CardTheme(color: Colors.white))
+          useMaterial3: true,
+          primarySwatch: Colors.blue,
+          appBarTheme: const AppBarTheme(
+              color: Colors.blue, foregroundColor: Colors.white),
+          cardTheme: const CardTheme(color: Colors.white))
           .copyWith(
-              pageTransitionsTheme: const PageTransitionsTheme(
-                  builders: <TargetPlatform, PageTransitionsBuilder>{
-            TargetPlatform.android: ZoomPageTransitionsBuilder(),
-          })),
+          pageTransitionsTheme: const PageTransitionsTheme(
+              builders: <TargetPlatform, PageTransitionsBuilder>{
+                TargetPlatform.android: ZoomPageTransitionsBuilder(),
+              })),
       initialRoute: '/',
       getPages: [
         GetPage(
             name: Utils().routeConst['home']!,
             page: () => const MyHomePage(title: 'News API')),
       ],
+      useInheritedMediaQuery: true,
+      locale: DevicePreview.locale(context),
+      builder: DevicePreview.appBuilder,
     );
   }
 }
@@ -74,10 +84,7 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  static final List<String> navTitles = [
-    'Everything API',
-    'Bookmarks'
-  ];
+  static final List<String> navTitles = ['Everything API', 'Bookmarks'];
   static final List<Widget> _mainNavItems = <Widget>[
     const EveryThingApiScreen(),
     const BookmarksScreen()
